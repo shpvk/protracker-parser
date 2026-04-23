@@ -1,4 +1,5 @@
 using protracker_parser.Services;
+using protracker_parser.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<ParserService>();
+builder.Services.AddScoped<ParserController>();
 
 var app = builder.Build();
 

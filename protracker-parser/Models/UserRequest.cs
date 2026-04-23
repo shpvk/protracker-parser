@@ -2,6 +2,6 @@
 {
     public class UserRequest
     {
-        public string InputText { get; set; } = null!;
+        public int HeroId { get; set; }
     }
 }

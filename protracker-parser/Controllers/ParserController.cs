@@ -9,16 +9,24 @@ namespace protracker_parser.Controllers
     {
 
         private readonly ParserService _parserService;
-        public ParserController()
+
+        public ParserController(ParserService parserService)
         {
-            _parserService = new ParserService();
+            _parserService = parserService;
         }
 
         [HttpPost]
-        public IActionResult Process([FromBody] UserRequest userRequest)
+        public async Task<IActionResult> Process([FromBody] UserRequest userRequest)
         {
-            var result = _parserService.Process(userRequest.InputText);
-            return Ok(result);
+            try
+            {
+                var result = await _parserService.Process(userRequest.HeroId);
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
         }
     }
 }
