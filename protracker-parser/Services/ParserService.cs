@@ -1,23 +1,31 @@
-﻿using protracker_parser.Models;
+﻿using System.Net.Http;
 
 namespace protracker_parser.Services
 {
     public class ParserService
     {
-        //public (int? gamesAmount, int? winrate, string? Error) Process(string inputText)
-        //{
-        //    if (string.IsNullOrWhiteSpace(inputText))
-        //        return (null, null, "Incorrect input string");
+        private readonly HttpClient _httpClient;
 
-        //    return (10000, 100, null); // Temporary plug
-        //}
-        public string Process(string inputText)
+        public ParserService(HttpClient httpClient)
         {
-
-
-            return $"Backend processed: {inputText}"; // Temporary plug
+            _httpClient = httpClient;
         }
 
+        async public Task<string> Process(int heroId)
+        {
 
+            string url = $"https://api.opendota.com/api/heroes/{heroId}";           
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                var jsonString = await response.Content.ReadAsStringAsync();
+                return jsonString;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
     }
 }
